@@ -1,0 +1,658 @@
+//HORIZONTAL 
+
+import java.util.*;
+
+class TreeNode {
+    char val;
+    TreeNode left;
+    TreeNode right;
+    
+    public TreeNode(char val) {
+        this.val = val;
+        left = null;
+        right = null;
+    }
+}
+
+public class Main {
+    // Function to obtain the Horizontal View of a binary tree
+    public static List<Character> horizontalView(TreeNode root) {
+        List<Character> horizontalView = new ArrayList<>();
+        if (root == null) {
+            return horizontalView;
+        }
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            int levelSize = queue.size();
+            for (int i = 0; i < levelSize; i++) {
+                TreeNode node = queue.poll();
+                horizontalView.add(node.val);
+                if (node.left != null) {
+                    queue.offer(node.left);
+                }
+                if (node.right != null) {
+                    queue.offer(node.right);
+                }
+            }
+        }
+        return horizontalView;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Input the root value
+        System.out.println("Enter the value of the root node:");
+        char rootValue = scanner.next().charAt(0);
+        TreeNode root = new TreeNode(rootValue);
+
+        // Input left child of root
+        System.out.println("Enter the value of the left child of the root node (enter '.' if there's none):");
+        char leftChildValue = scanner.next().charAt(0);
+        if (leftChildValue != '.') {
+            root.left = new TreeNode(leftChildValue);
+        }
+
+        // Input right child of root
+        System.out.println("Enter the value of the right child of the root node (enter '.' if there's none):");
+        char rightChildValue = scanner.next().charAt(0);
+        if (rightChildValue != '.') {
+            root.right = new TreeNode(rightChildValue);
+        }
+
+        // Input left child of left subtree
+        System.out.println("Enter the value of the left child of the left subtree (enter '.' if there's none):");
+        char leftLeftChildValue = scanner.next().charAt(0);
+        if (leftLeftChildValue != '.') {
+            root.left.left = new TreeNode(leftLeftChildValue);
+        }
+
+        // Input right child of left subtree
+        System.out.println("Enter the value of the right child of the left subtree (enter '.' if there's none):");
+        char leftRightChildValue = scanner.next().charAt(0);
+        if (leftRightChildValue != '.') {
+            root.left.right = new TreeNode(leftRightChildValue);
+        }
+
+        // Input left child of right subtree
+        System.out.println("Enter the value of the left child of the right subtree (enter '.' if there's none):");
+        char rightLeftChildValue = scanner.next().charAt(0);
+        if (rightLeftChildValue != '.') {
+            root.right.left = new TreeNode(rightLeftChildValue);
+        }
+
+        // Input right child of right subtree
+        System.out.println("Enter the value of the right child of the right subtree (enter '.' if there's none):");
+        char rightRightChildValue = scanner.next().charAt(0);
+        if (rightRightChildValue != '.') {
+            root.right.right = new TreeNode(rightRightChildValue);
+        }
+
+        // Calculate and print the Horizontal View
+        List<Character> horizontalViewResult = horizontalView(root);
+        System.out.print("Horizontal View: ");
+        for (char node : horizontalViewResult) {
+            System.out.print(node + " ");
+        }
+        System.out.println();
+    }
+}
+
+
+
+
+
+
+
+
+//VERTICAL
+
+import java.util.*;
+
+class TreeNode {
+    char val;
+    TreeNode left;
+    TreeNode right;
+    
+    public TreeNode(char val) {
+        this.val = val;
+        left = null;
+        right = null;
+    }
+}
+
+public class Main {
+    // Function to obtain the Vertical View of a binary tree
+    public static List<Character> verticalView(TreeNode root) {
+        List<Character> verticalView = new ArrayList<>();
+        if (root == null) {
+            return verticalView;
+        }
+        Map<Integer, List<Character>> verticalMap = new TreeMap<>();
+        Queue<TreeNode> nodeQueue = new LinkedList<>();
+        Queue<Integer> hdQueue = new LinkedList<>();
+        nodeQueue.offer(root);
+        hdQueue.offer(0);
+        while (!nodeQueue.isEmpty()) {
+            TreeNode node = nodeQueue.poll();
+            int hd = hdQueue.poll();
+            verticalMap.computeIfAbsent(hd, k -> new ArrayList<>()).add(node.val);
+            if (node.left != null) {
+                nodeQueue.offer(node.left);
+                hdQueue.offer(hd - 1);
+            }
+            if (node.right != null) {
+                nodeQueue.offer(node.right);
+                hdQueue.offer(hd + 1);
+            }
+        }
+        for (List<Character> values : verticalMap.values()) {
+            verticalView.addAll(values);
+        }
+        return verticalView;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Input the value of the root node
+        System.out.println("Enter the value of the root node:");
+        char rootValue = scanner.next().charAt(0);
+        TreeNode root = new TreeNode(rootValue);
+
+        // Input the value of the left child of the root node
+        System.out.println("Enter the value of the left child of the root node (enter '.' if there's none):");
+        char leftChildValue = scanner.next().charAt(0);
+        if (leftChildValue != '.') {
+            root.left = new TreeNode(leftChildValue);
+        }
+
+        // Input the value of the right child of the root node
+        System.out.println("Enter the value of the right child of the root node (enter '.' if there's none):");
+        char rightChildValue = scanner.next().charAt(0);
+        if (rightChildValue != '.') {
+            root.right = new TreeNode(rightChildValue);
+        }
+
+        // Input the value of the left child of the left subtree
+        System.out.println("Enter the value of the left child of the left subtree (enter '.' if there's none):");
+        char leftLeftChildValue = scanner.next().charAt(0);
+        if (leftLeftChildValue != '.') {
+            root.left.left = new TreeNode(leftLeftChildValue);
+        }
+
+        // Input the value of the left child of the right subtree
+        System.out.println("Enter the value of the left child of the right subtree (enter '.' if there's none):");
+        char rightLeftChildValue = scanner.next().charAt(0);
+        if (rightLeftChildValue != '.') {
+            root.right.left = new TreeNode(rightLeftChildValue);
+        }
+
+        // Input the value of the right child of the right subtree
+        System.out.println("Enter the value of the right child of the right subtree (enter '.' if there's none):");
+        char rightRightChildValue = scanner.next().charAt(0);
+        if (rightRightChildValue != '.') {
+            root.right.right = new TreeNode(rightRightChildValue);
+        }
+
+        // Calculate and print the Vertical View
+        List<Character> verticalViewResult = verticalView(root);
+        System.out.print("Vertical View: ");
+        for (char node : verticalViewResult) {
+            System.out.print(node + " ");
+        }
+        System.out.println();
+    }
+}
+
+
+
+
+
+
+
+//LEFT 
+
+
+
+import java.util.*;
+
+class TreeNode {
+    char val;
+    TreeNode left;
+    TreeNode right;
+
+    public TreeNode(char val) {
+        this.val = val;
+        left = null;
+        right = null;
+    }
+}
+
+public class Main {
+    // Function to obtain the Left View of a binary tree
+    public static List<Character> leftView(TreeNode root) {
+        List<Character> leftView = new ArrayList<>();
+
+        if (root == null) {
+            return leftView;
+        }
+
+        Queue<TreeNode> nodeQueue = new LinkedList<>();
+        nodeQueue.offer(root);
+
+        while (!nodeQueue.isEmpty()) {
+            int levelSize = nodeQueue.size();
+            for (int i = 0; i < levelSize; i++) {
+                TreeNode node = nodeQueue.poll();
+                // Add the leftmost node at each level to the leftView list
+                if (i == 0) {
+                    leftView.add(node.val);
+                }
+                if (node.left != null) {
+                    nodeQueue.offer(node.left);
+                }
+                if (node.right != null) {
+                    nodeQueue.offer(node.right);
+                }
+            }
+        }
+        return leftView;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Input the value of the root node
+        System.out.println("Enter the value of the root node:");
+        char rootValue = scanner.next().charAt(0);
+        TreeNode root = new TreeNode(rootValue);
+
+        // Input the value of the left child of the root node
+        System.out.println("Enter the value of the left child of the root node (enter '.' if there's none):");
+        char leftChildValue = scanner.next().charAt(0);
+        if (leftChildValue != '.') {
+            root.left = new TreeNode(leftChildValue);
+        }
+
+        // Input the value of the right child of the root node
+        System.out.println("Enter the value of the right child of the root node (enter '.' if there's none):");
+        char rightChildValue = scanner.next().charAt(0);
+        if (rightChildValue != '.') {
+            root.right = new TreeNode(rightChildValue);
+        }
+
+        // Input the value of the left child of the left subtree
+        System.out.println("Enter the value of the left child of the left subtree (enter '.' if there's none):");
+        char leftLeftChildValue = scanner.next().charAt(0);
+        if (leftLeftChildValue != '.') {
+            root.left.left = new TreeNode(leftLeftChildValue);
+        }
+
+        // Input the value of the right child of the left subtree
+        System.out.println("Enter the value of the right child of the left subtree (enter '.' if there's none):");
+        char leftRightChildValue = scanner.next().charAt(0);
+        if (leftRightChildValue != '.') {
+            root.left.right = new TreeNode(leftRightChildValue);
+        }
+
+        // Input the value of the left child of the right subtree
+        System.out.println("Enter the value of the left child of the right subtree (enter '.' if there's none):");
+        char rightLeftChildValue = scanner.next().charAt(0);
+        if (rightLeftChildValue != '.') {
+            root.right.left = new TreeNode(rightLeftChildValue);
+        }
+
+        // Input the value of the right child of the right subtree
+        System.out.println("Enter the value of the right child of the right subtree (enter '.' if there's none):");
+        char rightRightChildValue = scanner.next().charAt(0);
+        if (rightRightChildValue != '.') {
+            root.right.right = new TreeNode(rightRightChildValue);
+        }
+
+        // Calculate and print the Left View
+        List<Character> leftViewResult = leftView(root);
+        System.out.print("Left View: ");
+        for (char node : leftViewResult) {
+            System.out.print(node + " ");
+        }
+        System.out.println();
+    }
+}
+
+
+
+
+
+
+//RIGHT:
+
+
+
+import java.util.*;
+
+class TreeNode {
+    char val;
+    TreeNode left;
+    TreeNode right;
+
+    public TreeNode(char val) {
+        this.val = val;
+        left = null;
+        right = null;
+    }
+}
+
+public class Main {
+    // Function to obtain the Right View of a binary tree
+    public static List<Character> rightView(TreeNode root) {
+        List<Character> rightView = new ArrayList<>();
+        if (root == null) {
+            return rightView;
+        }
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            int levelSize = queue.size();
+            for (int i = 0; i < levelSize; i++) {
+                TreeNode node = queue.poll();
+                // Add the rightmost node at each level to the result
+                if (i == levelSize - 1) {
+                    rightView.add(node.val);
+                }
+                if (node.left != null) {
+                    queue.offer(node.left);
+                }
+                if (node.right != null) {
+                    queue.offer(node.right);
+                }
+            }
+        }
+        return rightView;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Input the value of the root node
+        System.out.println("Enter the value of the root node:");
+        char rootValue = scanner.next().charAt(0);
+        TreeNode root = new TreeNode(rootValue);
+
+        // Input the value of the left child of the root node
+        System.out.println("Enter the value of the left child of the root node (enter '.' if there's none):");
+        char leftChildValue = scanner.next().charAt(0);
+        if (leftChildValue != '.') {
+            root.left = new TreeNode(leftChildValue);
+        }
+
+        // Input the value of the right child of the root node
+        System.out.println("Enter the value of the right child of the root node (enter '.' if there's none):");
+        char rightChildValue = scanner.next().charAt(0);
+        if (rightChildValue != '.') {
+            root.right = new TreeNode(rightChildValue);
+        }
+
+        // Input the value of the left child of the left subtree
+        System.out.println("Enter the value of the left child of the left subtree (enter '.' if there's none):");
+        char leftLeftChildValue = scanner.next().charAt(0);
+        if (leftLeftChildValue != '.') {
+            root.left.left = new TreeNode(leftLeftChildValue);
+        }
+
+        // Input the value of the right child of the left subtree
+        System.out.println("Enter the value of the right child of the left subtree (enter '.' if there's none):");
+        char leftRightChildValue = scanner.next().charAt(0);
+        if (leftRightChildValue != '.') {
+            root.left.right = new TreeNode(leftRightChildValue);
+        }
+
+        // Input the value of the left child of the right subtree
+        System.out.println("Enter the value of the left child of the right subtree (enter '.' if there's none):");
+        char rightLeftChildValue = scanner.next().charAt(0);
+        if (rightLeftChildValue != '.') {
+            root.right.left = new TreeNode(rightLeftChildValue);
+        }
+
+        // Input the value of the right child of the right subtree
+        System.out.println("Enter the value of the right child of the right subtree (enter '.' if there's none):");
+        char rightRightChildValue = scanner.next().charAt(0);
+        if (rightRightChildValue != '.') {
+            root.right.right = new TreeNode(rightRightChildValue);
+        }
+
+        // Calculate and print the Right View
+        List<Character> rightViewResult = rightView(root);
+        System.out.print("Right View: ");
+        for (char node : rightViewResult) {
+            System.out.print(node + " ");
+        }
+        System.out.println();
+    }
+}
+
+
+
+
+
+//TOP 
+
+
+import java.util.*;
+
+class TreeNode {
+    char val;
+    TreeNode left;
+    TreeNode right;
+
+    public TreeNode(char val) {
+        this.val = val;
+        left = null;
+        right = null;
+    }
+}
+
+class Pair {
+    TreeNode node;
+    int hd;
+
+    public Pair(TreeNode node, int hd) {
+        this.node = node;
+        this.hd = hd;
+    }
+}
+
+public class Main {
+    // Function to obtain the Top View of a binary tree
+    public static List<Character> topView(TreeNode root) {
+        List<Character> topView = new ArrayList<>();
+        if (root == null) {
+            return topView;
+        }
+        Map<Integer, Character> verticalMap = new TreeMap<>();
+        Queue<Pair> queue = new LinkedList<>();
+        queue.offer(new Pair(root, 0));
+        while (!queue.isEmpty()) {
+            Pair pair = queue.poll();
+            TreeNode node = pair.node;
+            int hd = pair.hd;
+            if (!verticalMap.containsKey(hd)) {
+                verticalMap.put(hd, node.val);
+            }
+            if (node.left != null) {
+                queue.offer(new Pair(node.left, hd - 1));
+            }
+            if (node.right != null) {
+                queue.offer(new Pair(node.right, hd + 1));
+            }
+        }
+        for (char nodeVal : verticalMap.values()) {
+            topView.add(nodeVal);
+        }
+        return topView;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Input the value of the root node
+        System.out.println("Enter the value of the root node:");
+        char rootValue = scanner.next().charAt(0);
+        TreeNode root = new TreeNode(rootValue);
+
+        // Input the value of the left child of the root node
+        System.out.println("Enter the value of the left child of the root node (enter '.' if there's none):");
+        char leftChildValue = scanner.next().charAt(0);
+        if (leftChildValue != '.') {
+            root.left = new TreeNode(leftChildValue);
+        }
+
+        // Input the value of the right child of the root node
+        System.out.println("Enter the value of the right child of the root node (enter '.' if there's none):");
+        char rightChildValue = scanner.next().charAt(0);
+        if (rightChildValue != '.') {
+            root.right = new TreeNode(rightChildValue);
+        }
+
+        // Input the value of the left child of the left subtree
+        System.out.println("Enter the value of the left child of the left subtree (enter '.' if there's none):");
+        char leftLeftChildValue = scanner.next().charAt(0);
+        if (leftLeftChildValue != '.') {
+            root.left.left = new TreeNode(leftLeftChildValue);
+        }
+
+        // Input the value of the left child of the right subtree
+        System.out.println("Enter the value of the left child of the right subtree (enter '.' if there's none):");
+        char rightLeftChildValue = scanner.next().charAt(0);
+        if (rightLeftChildValue != '.') {
+            root.right.left = new TreeNode(rightLeftChildValue);
+        }
+
+        // Input the value of the right child of the right subtree
+        System.out.println("Enter the value of the right child of the right subtree (enter '.' if there's none):");
+        char rightRightChildValue = scanner.next().charAt(0);
+        if (rightRightChildValue != '.') {
+            root.right.right = new TreeNode(rightRightChildValue);
+        }
+
+        // Calculate and print the Top View
+        List<Character> topViewResult = topView(root);
+        System.out.print("Top View: ");
+        for (char node : topViewResult) {
+            System.out.print(node + " ");
+        }
+        System.out.println();
+    }
+}
+
+
+
+
+//BOTTOM 
+
+
+import java.util.*;
+
+class TreeNode {
+    char val;
+    TreeNode left;
+    TreeNode right;
+
+    public TreeNode(char val) {
+        this.val = val;
+        left = null;
+        right = null;
+    }
+}
+
+class NodeInfo {
+    TreeNode node;
+    int hd;
+
+    public NodeInfo(TreeNode node, int hd) {
+        this.node = node;
+        this.hd = hd;
+    }
+}
+
+public class Main {
+    // Function to obtain the Bottom View of a binary tree
+    public static List<Character> bottomView(TreeNode root) {
+        List<Character> bottomView = new ArrayList<>();
+        if (root == null) {
+            return bottomView;
+        }
+        Map<Integer, Character> bottomMap = new TreeMap<>();
+        Queue<NodeInfo> nodeQueue = new LinkedList<>();
+        nodeQueue.offer(new NodeInfo(root, 0));
+        while (!nodeQueue.isEmpty()) {
+            NodeInfo info = nodeQueue.poll();
+            TreeNode node = info.node;
+            int hd = info.hd;
+            bottomMap.put(hd, node.val);
+            if (node.left != null) {
+                nodeQueue.offer(new NodeInfo(node.left, hd - 1));
+            }
+            if (node.right != null) {
+                nodeQueue.offer(new NodeInfo(node.right, hd + 1));
+            }
+        }
+        for (char value : bottomMap.values()) {
+            bottomView.add(value);
+        }
+        return bottomView;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Input the value of the root node
+        System.out.println("Enter the value of the root node:");
+        char rootValue = scanner.next().charAt(0);
+        TreeNode root = new TreeNode(rootValue);
+
+        // Input the value of the left child of the root node
+        System.out.println("Enter the value of the left child of the root node (enter '.' if there's none):");
+        char leftChildValue = scanner.next().charAt(0);
+        if (leftChildValue != '.') {
+            root.left = new TreeNode(leftChildValue);
+        }
+
+        // Input the value of the right child of the root node
+        System.out.println("Enter the value of the right child of the root node (enter '.' if there's none):");
+        char rightChildValue = scanner.next().charAt(0);
+        if (rightChildValue != '.') {
+            root.right = new TreeNode(rightChildValue);
+        }
+
+        // Input the value of the left child of the left subtree
+        System.out.println("Enter the value of the left child of the left subtree (enter '.' if there's none):");
+        char leftLeftChildValue = scanner.next().charAt(0);
+        if (leftLeftChildValue != '.') {
+            root.left.left = new TreeNode(leftLeftChildValue);
+        }
+
+        // Input the value of the left child of the right subtree
+        System.out.println("Enter the value of the left child of the right subtree (enter '.' if there's none):");
+        char rightLeftChildValue = scanner.next().charAt(0);
+        if (rightLeftChildValue != '.') {
+            root.right.left = new TreeNode(rightLeftChildValue);
+        }
+
+        // Input the value of the right child of the right subtree
+        System.out.println("Enter the value of the right child of the right subtree (enter '.' if there's none):");
+        char rightRightChildValue = scanner.next().charAt(0);
+        if (rightRightChildValue != '.') {
+            root.right.right = new TreeNode(rightRightChildValue);
+        }
+
+        // Calculate and print the Bottom View
+        List<Character> bottomViewResult = bottomView(root);
+        System.out.print("Bottom View: ");
+        for (char node : bottomViewResult) {
+            System.out.print(node + " ");
+        }
+        System.out.println();
+    }
+}
